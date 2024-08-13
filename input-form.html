@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Form Fields</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .remove-btn {
+      margin-left: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    <form id="dynamicForm">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Input Fields</label>
+        <div class="col-sm-10" id="inputFields">
+          <div class="input-group mb-2">
+            <input type="text" class="form-control" name="fields[]" placeholder="Enter text">
+            <div class="input-group-append">
+              <button class="btn btn-outline-success add-btn" type="button">Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var maxFields = 10; // Maximum input fields allowed
+      var inputFields = $("#inputFields"); // Input fields wrapper
+      var fieldCount = 1; // Initial field count
+
+      // Function to add a new input field with both add and remove buttons
+      function addInputField() {
+        if (fieldCount < maxFields) {
+          fieldCount++; // Increment the field count
+          var newInputField = `<div class="input-group mb-2">
+                                <input type="text" class="form-control" name="fields[]" placeholder="Enter text">
+                                <div class="input-group-append">
+                                  <button class="btn btn-outline-success add-btn" type="button">Add</button>
+                                  <button class="btn btn-outline-danger remove-btn" type="button">Remove</button>
+                                </div>
+                              </div>`;
+          $(inputFields).append(newInputField);
+        }
+      }
+
+      // When the add button is clicked
+      $(inputFields).on("click", ".add-btn", function () {
+        addInputField();
+      });
+
+      // When the remove button is clicked
+      $(inputFields).on("click", ".remove-btn", function (e) {
+        e.preventDefault();
+        $(this).closest('.input-group').remove(); // Remove the input field
+        fieldCount--; // Decrement the field count
+      });
+    });
+  </script>
+</body>
+</html>
